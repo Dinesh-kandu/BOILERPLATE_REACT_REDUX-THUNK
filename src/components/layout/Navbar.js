@@ -2,9 +2,10 @@ import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import Notifications from 'react-notification-system-redux';
 import { logout } from '../../redux/auth/action';
 
-const Navbar = ({ auth: { isAuth }, logout }) => {
+const Navbar = ({ auth: { isAuth }, logout, notifications }) => {
   const authLinks = (
     <ul>
       <li>
@@ -42,26 +43,31 @@ const Navbar = ({ auth: { isAuth }, logout }) => {
   );
 
   return (
-    <nav className="navbar bg-dark">
-      <h1>
-        <Link to="/">
-          <i className="fas fa-code" />
-          DevConnector
-        </Link>
-      </h1>
-      <Fragment>{isAuth ? authLinks : guestLinks}</Fragment>
-    </nav>
+    <Fragment>
+      <Notifications notifications={notifications} />
+      <nav className="navbar bg-dark">
+        <h1>
+          <Link to="/">
+            <i className="fas fa-code" />
+            DevConnector
+          </Link>
+        </h1>
+        <Fragment>{isAuth ? authLinks : guestLinks}</Fragment>
+      </nav>
+    </Fragment>
   );
 };
 
 Navbar.propTypes = {
   logout: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
+  notifications: PropTypes.array.isRequired,
 };
 
 export default connect(
   state => ({
     auth: state.auth,
+    notifications: state.notifications,
   }),
   { logout },
 )(Navbar);

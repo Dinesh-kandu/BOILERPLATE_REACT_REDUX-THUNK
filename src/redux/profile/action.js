@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAlert } from '../alert/action';
+import { success, error } from 'react-notification-system-redux';
 import { CHANGE_LOADING } from '../loading/constant';
 import { makeConstantCreator } from '../reduxCreator';
 
@@ -133,7 +133,13 @@ export const createProfile = (formData, history, edit = false) => async dispatch
       type: ProfileTypes.GET_PROFILE,
       payload: res.data,
     });
-    dispatch(setAlert(edit ? 'Profile Updated' : 'Profile Created'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: edit ? 'Profile Updated' : 'Profile Created',
+        autoDismiss: 1,
+      }),
+    );
     dispatch({
       type: CHANGE_LOADING,
       payload: false,
@@ -146,7 +152,13 @@ export const createProfile = (formData, history, edit = false) => async dispatch
     const { errors } = err.response.data;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger', 2000)));
+      errors.forEach(
+        error({
+          title: 'Error',
+          message: error.msg,
+          autoDismiss: 1,
+        }),
+      );
     }
     dispatch({
       type: ProfileTypes.PROFILE_ERROR,
@@ -178,13 +190,25 @@ export const addExperience = (formData, history) => async dispatch => {
       type: CHANGE_LOADING,
       payload: false,
     });
-    dispatch(setAlert('Experience Added', 'success'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Exexperience Added',
+        autoDismiss: 1,
+      }),
+    );
     history.push('/dashboard');
   } catch (err) {
     const { errors } = err.response.data;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger', 2000)));
+      errors.forEach(
+        success({
+          title: 'Done',
+          message: error.msg,
+          autoDismiss: 1,
+        }),
+      );
     }
     dispatch({
       type: ProfileTypes.PROFILE_ERROR,
@@ -216,13 +240,25 @@ export const addEducation = (formData, history) => async dispatch => {
       type: CHANGE_LOADING,
       payload: false,
     });
-    dispatch(setAlert('Education Added', 'success'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Education Added',
+        autoDismiss: 1,
+      }),
+    );
     history.push('/dashboard');
   } catch (err) {
     const { errors } = err.response.data;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger', 2000)));
+      errors.forEach(error => dispatch(
+          error({
+            title: 'Done',
+            message: error.msg,
+            autoDismiss: 1,
+          }),
+        ));
     }
     dispatch({
       type: ProfileTypes.PROFILE_ERROR,
@@ -246,7 +282,13 @@ export const deleteExperience = id => async dispatch => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Experience Removed', 'success'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Experience Removed',
+        autoDismiss: 1,
+      }),
+    );
     dispatch({
       type: CHANGE_LOADING,
       payload: false,
@@ -277,7 +319,13 @@ export const deleteEducation = id => async dispatch => {
       type: CHANGE_LOADING,
       payload: false,
     });
-    dispatch(setAlert('Education Removed', 'success'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Education Removed',
+        autoDismiss: 1,
+      }),
+    );
   } catch (error) {
     dispatch({
       type: ProfileTypes.PROFILE_ERROR,
@@ -299,7 +347,13 @@ export const deleteAccount = () => async dispatch => {
     dispatch({ type: ProfileTypes.CLEAR_PROFILE });
     dispatch({ type: ProfileTypes.DELETE_ACCOUNT });
 
-    dispatch(setAlert('Your account has been deleted', 'success'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Deleted Success',
+        autoDismiss: 1,
+      }),
+    );
     dispatch({
       type: CHANGE_LOADING,
       payload: false,

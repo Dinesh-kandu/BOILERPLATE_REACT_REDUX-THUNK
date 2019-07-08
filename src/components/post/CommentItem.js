@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Moment from 'react-moment';
+import InlineConfirmButton from 'react-inline-confirm';
 import { deleteComment } from '../../redux/post/action';
+
+const textValues = ['Delete', 'Are you sure?', 'Deleting...'];
 
 const CommentItem = ({
   postId,
@@ -13,7 +16,7 @@ const CommentItem = ({
   auth,
   deleteComment,
 }) => {
-  const handleClick = e => {
+  const handleDeleteComment = e => {
     deleteComment(postId, _id);
   };
   return (
@@ -21,11 +24,7 @@ const CommentItem = ({
       <div className="post bg-white p-1 my-1">
         <div>
           <Link to={`/profile/${user}`}>
-            <img
-              className="round-img"
-              src={avatar}
-              alt=""
-            />
+            <img className="round-img" src={avatar} alt="" />
             <h4>{name}</h4>
           </Link>
         </div>
@@ -37,13 +36,15 @@ const CommentItem = ({
             <Moment format="YYYY/MM/DD">{date}</Moment>
           </p>
           {user._id === auth.user_id && (
-            <button
-              type="button"
+            <InlineConfirmButton
               className="btn btn-danger"
-              onClick={handleClick}
+              textValues={textValues}
+              showTimer
+              isExecuting
+              onClick={handleDeleteComment}
             >
-              Delete
-            </button>
+              <i className="fa fa-$ fa fa-trash" />
+            </InlineConfirmButton>
           )}
         </div>
       </div>
@@ -52,7 +53,7 @@ const CommentItem = ({
 };
 
 CommentItem.propTypes = {
-  postId: PropTypes.number,
+  postId: PropTypes.string,
   comment: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,

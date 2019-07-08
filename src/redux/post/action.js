@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAlert } from '../alert/action';
+import { success } from 'react-notification-system-redux';
 import { CHANGE_LOADING } from '../loading/constant';
 import { makeConstantCreator } from '../reduxCreator';
 
@@ -109,7 +109,13 @@ export const deletePost = id => async dispatch => {
       type: PostTypes.DELETE_POST,
       payload: id,
     });
-    dispatch(setAlert('Post Removed', 'success'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Delete Successful',
+        autoDismiss: 1,
+      }),
+    );
   } catch (error) {
     dispatch({
       type: PostTypes.POST_ERROR,
@@ -136,7 +142,13 @@ export const addPost = formData => async dispatch => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Post Created', 'success'));
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Added Post Successful',
+        autoDismiss: 2,
+      }),
+    );
   } catch (error) {
     dispatch({
       type: PostTypes.POST_ERROR,
@@ -156,10 +168,6 @@ export const addComment = (postId, formData) => async dispatch => {
   };
 
   try {
-    dispatch({
-      type: CHANGE_LOADING,
-      payload: true,
-    });
     const res = await axios.post(`/api/posts/comment/${postId}`, formData, config);
 
     dispatch({
@@ -167,11 +175,13 @@ export const addComment = (postId, formData) => async dispatch => {
       payload: res.data,
     });
 
-    dispatch(setAlert('Comment Created', 'success'));
-    dispatch({
-      type: CHANGE_LOADING,
-      payload: false,
-    });
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Created Successful',
+        autoDismiss: 2,
+      }),
+    );
   } catch (error) {
     dispatch({
       type: PostTypes.POST_ERROR,
@@ -185,10 +195,6 @@ export const addComment = (postId, formData) => async dispatch => {
 
 export const deleteComment = (postId, commentId) => async dispatch => {
   try {
-    dispatch({
-      type: CHANGE_LOADING,
-      payload: true,
-    });
     await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
 
     dispatch({
@@ -196,11 +202,13 @@ export const deleteComment = (postId, commentId) => async dispatch => {
       payload: commentId,
     });
 
-    dispatch(setAlert('Comment Removed', 'success'));
-    dispatch({
-      type: CHANGE_LOADING,
-      payload: false,
-    });
+    dispatch(
+      success({
+        title: 'Done',
+        message: 'Delete Successful',
+        autoDismiss: 1,
+      }),
+    );
   } catch (error) {
     dispatch({
       type: PostTypes.POST_ERROR,

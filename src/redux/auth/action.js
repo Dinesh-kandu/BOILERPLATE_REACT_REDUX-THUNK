@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { setAlert } from '../alert/action';
+import { error } from 'react-notification-system-redux';
 import setAuthToken from '../../utils/setAuthToken';
 
 import { makeConstantCreator } from '../reduxCreator';
@@ -52,7 +52,13 @@ export const register = ({ name, email, password }) => async dispatch => {
     const { errors } = err.response.data;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger', 2000)));
+      errors.forEach(e => dispatch(
+          error({
+            title: 'Done',
+            message: e.msg,
+            autoDismiss: 2,
+          }),
+        ));
     }
     dispatch({
       type: AuthTypes.REGISTER_FAIL,
@@ -82,7 +88,13 @@ export const login = ({ email, password }) => async dispatch => {
     const { errors } = err.response.data;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger', 2000)));
+      errors.map(e => dispatch(
+          error({
+            title: 'Error',
+            message: e.msg,
+            autoDismiss: 2,
+          }),
+        ));
     }
     dispatch({
       type: AuthTypes.LOGIN_FAIL,

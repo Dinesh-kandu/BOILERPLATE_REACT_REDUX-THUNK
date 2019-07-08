@@ -7,7 +7,6 @@ const ProfileItem = ({
  user, status, company, location, skills,
 },
 }) => {
-  console.log(user);
   return (
     user && (
       <div className="profile bg-light">

@@ -2,10 +2,10 @@ import React, { Fragment, useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setAlert } from '../../redux/alert/action';
+import { error } from 'react-notification-system-redux';
 import { register } from '../../redux/auth/action';
 
-const Register = ({ setAlert, register, isAuth }) => {
+const Register = ({ error, register, isAuth }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -21,7 +21,11 @@ const Register = ({ setAlert, register, isAuth }) => {
   const onSubmit = async e => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert('Passwords do not match', 'danger', 1000);
+      error({
+        title: 'Error',
+        message: 'Password not matched',
+        autoDismiss: 2,
+      });
     } else {
       register({ name, email, password });
     }
@@ -34,8 +38,7 @@ const Register = ({ setAlert, register, isAuth }) => {
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user" />
-        {' '}
-Create Your Account
+        Create Your Account
       </p>
       <form className="form" onSubmit={e => onSubmit(e)}>
         <div className="form-group">
@@ -54,11 +57,9 @@ Create Your Account
             value={email}
             onChange={e => onChange(e)}
             name="email"
-
           />
           <small className="form-text">
-This site uses Gravatar so if you want a profile image, use a
-            Gravatar email
+            This site uses Gravatar so if you want a profile image, use a Gravatar email
           </small>
         </div>
         <div className="form-group">
@@ -83,7 +84,6 @@ This site uses Gravatar so if you want a profile image, use a
       </form>
       <p className="my-1">
         Already have an account?
-        {' '}
         <Link to="/login"> Log In</Link>
       </p>
     </Fragment>
@@ -91,7 +91,7 @@ This site uses Gravatar so if you want a profile image, use a
 };
 
 Register.propTypes = {
-  setAlert: PropTypes.func.isRequired,
+  error: PropTypes.func.isRequired,
   isAuth: PropTypes.bool,
 };
 
@@ -99,5 +99,5 @@ export default connect(
   state => ({
     isAuth: state.auth.isAuth,
   }),
-  { setAlert, register },
+  { error, register },
 )(Register);

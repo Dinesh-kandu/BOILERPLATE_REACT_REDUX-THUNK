@@ -52,6 +52,7 @@ export default function(state = initialState, action) {
         post: payload,
       };
     case PostTypes.ADD_COMMENT:
+      console.log(state.post.comments);
       return {
         ...state,
         post: { ...state.post, comments: payload },
@@ -61,7 +62,7 @@ export default function(state = initialState, action) {
         ...state,
         post: {
           ...state.post,
-          comments: state.post.comments.filter(comment => comment.id !== payload),
+          comments: state.post.comments.filter(comment => comment._id !== payload),
         },
       };
     default:
