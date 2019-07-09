@@ -1,11 +1,12 @@
 import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
-import store from './redux/store';
+import store, { history } from './redux/store';
 import { loadUser } from './redux/auth/action';
 import setAuthToken from './utils/setAuthToken';
 import Dashboard from './components/dashboard/Dashboard';
@@ -18,7 +19,6 @@ import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
 import Profiles from './components/profiles/Profiles';
 import AddEducation from './components/profile-forms/AddEducation';
-
 import './style.css';
 
 if (localStorage.token) {
@@ -42,7 +42,7 @@ const App = () => {
   }, []);
   return (
     <Provider store={store}>
-      <Router>
+      <ConnectedRouter history={history}>
         <Fragment>
           <Navbar />
           <Route exact path="/" component={Landing} />
@@ -62,7 +62,7 @@ const App = () => {
             </Switch>
           </section>
         </Fragment>
-      </Router>
+      </ConnectedRouter>
     </Provider>
   );
 };

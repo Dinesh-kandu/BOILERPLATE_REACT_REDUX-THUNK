@@ -1,23 +1,12 @@
-import { makeConstantCreator } from '../reduxCreator';
+import { AuthTypes } from './action';
 
-export const AuthTypes = makeConstantCreator(
-  'REGISTER_SUCCESS',
-  'REGISTER_FAIL',
-  'USER_LOADED',
-  'AUTH_ERROR',
-  'LOGIN_SUCCESS',
-  'LOGIN_FAIL',
-  'DELETE_ACCOUNT',
-  'LOGOUT',
-);
-
-const innitialState = {
+const initialState = {
   token: localStorage.getItem('token'),
   isAuth: null,
   user: null,
 };
 
-export default function(state = innitialState, action) {
+export default function(state = initialState, action) {
   const { payload } = action;
 
   switch (action.type) {

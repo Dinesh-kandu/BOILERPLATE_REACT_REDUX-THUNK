@@ -75,7 +75,7 @@ PostItem.propTypes = {
   deletePost: PropTypes.func.isRequired,
   post: PropTypes.object.isRequired,
 };
-
+   
 PostItem.defaultProps = {
   showActions: true,
 };

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addEducation } from '../../redux/profile/action';
 
-const AddEducation = ({ addEducation, history }) => {
+const AddEducation = ({ addEducation }) => {
   const [formData, setFormData] = useState({
     school: '',
     degree: '',
@@ -18,14 +18,8 @@ const AddEducation = ({ addEducation, history }) => {
   const [toDateDisabled, toggleDisabled] = useState(false);
 
   const {
-    school,
-    degree,
-    fieldofstudy,
-    from,
-    to,
-    current,
-    description,
-  } = formData;
+ school, degree, fieldofstudy, from, to, current, description,
+} = formData;
 
   const onChange = e => setFormData({
       ...formData,
@@ -34,21 +28,18 @@ const AddEducation = ({ addEducation, history }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">
-        Add An Education
-      </h1>
+      <h1 className="large text-primary">Add An Education</h1>
       <p className="lead">
         <i className="fas fa-code-branch" />
         {' '}
-Add any school
-        or bootcamp
+Add any school or bootcamp
       </p>
       <small>* = required field</small>
       <form
         className="form"
         onSubmit={e => {
           e.preventDefault();
-          addEducation(formData, history);
+          addEducation(formData);
         }}
       >
         <div className="form-group">
@@ -83,12 +74,7 @@ Add any school
         </div>
         <div className="form-group">
           <h4>From Date</h4>
-          <input
-            type="date"
-            name="from"
-            value={from}
-            onChange={e => onChange(e)}
-          />
+          <input type="date" name="from" value={from} onChange={e => onChange(e)} />
         </div>
         <div className="form-group">
           <p>
@@ -129,14 +115,8 @@ Add any school
             onChange={e => onChange(e)}
           />
         </div>
-        <input
-          type="submit"
-          className="btn btn-primary my-1"
-        />
-        <Link
-          className="btn btn-light my-1"
-          to="/dashboard"
-        >
+        <input type="submit" className="btn btn-primary my-1" />
+        <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
         </Link>
       </form>

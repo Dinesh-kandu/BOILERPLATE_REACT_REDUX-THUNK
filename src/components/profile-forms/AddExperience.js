@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { addExperience } from '../../redux/profile/action';
 
-const AddExperience = ({ addExperience, history }) => {
+const AddExperience = ({ addExperience }) => {
   const [formData, setFormData] = useState({
     company: '',
     title: '',
@@ -25,21 +25,17 @@ const AddExperience = ({ addExperience, history }) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">
-        Add An Experience
-      </h1>
+      <h1 className="large text-primary">Add An Experience</h1>
       <p className="lead">
         <i className="fas fa-code-branch" />
-        {' '}
-Add any developer/programming
-        positions that you have had in the past
+        Add any developer/programming positions that you have had in the past
       </p>
       <small>* = required field</small>
       <form
         className="form"
         onSubmit={e => {
           e.preventDefault();
-          addExperience(formData, history);
+          addExperience(formData);
         }}
       >
         <div className="form-group">
@@ -73,12 +69,7 @@ Add any developer/programming
         </div>
         <div className="form-group">
           <h4>From Date</h4>
-          <input
-            type="date"
-            name="from"
-            value={from}
-            onChange={e => onChange(e)}
-          />
+          <input type="date" name="from" value={from} onChange={e => onChange(e)} />
         </div>
         <div className="form-group">
           <p>
@@ -88,12 +79,12 @@ Add any developer/programming
               value={current}
               checked={current}
               onChange={e => {
-              setFormData({ ...formData, current: !current });
-              toggleDisabled(!toDateDisabled);
-            }}
+                setFormData({ ...formData, current: !current });
+                toggleDisabled(!toDateDisabled);
+              }}
             />
             {' '}
-Current Job
+            Current Job
           </p>
         </div>
         <div className="form-group">
@@ -117,7 +108,9 @@ Current Job
           />
         </div>
         <input type="submit" className="btn btn-primary my-1" />
-        <Link className="btn btn-light my-1" to="/dashboard">Go Back</Link>
+        <Link className="btn btn-light my-1" to="/dashboard">
+          Go Back
+        </Link>
       </form>
     </Fragment>
   );

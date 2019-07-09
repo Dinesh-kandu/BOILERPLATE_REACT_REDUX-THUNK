@@ -1,14 +1,4 @@
-import { makeConstantCreator } from '../reduxCreator';
-
-export const ProfileTypes = makeConstantCreator(
-  'GET_PROFILE',
-  'PROFILE_ERROR',
-  'UPDATE_PROFILE',
-  'DELETE_ACCOUNT',
-  'GET_PROFILES',
-  'GET_REPOS',
-  'CLEAR_PROFILE',
-);
+import { ProfileTypes } from './action';
 
 const initialState = {
   profile: null,

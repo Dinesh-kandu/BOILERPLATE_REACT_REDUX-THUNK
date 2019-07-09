@@ -1,15 +1,4 @@
-import { makeConstantCreator } from '../reduxCreator';
-
-export const PostTypes = makeConstantCreator(
-  'GET_POST',
-  'GET_POSTS',
-  'POST_ERROR',
-  'DELETE_POST',
-  'ADD_POST',
-  'UPDATE_LIKES',
-  'ADD_COMMENT',
-  'REMOVE_COMMENT',
-);
+import { PostTypes } from './action';
 
 const initialState = {
   posts: [],

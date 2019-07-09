@@ -105,7 +105,7 @@ const EditProfile = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    createProfile(formData, history, true);
+    createProfile(formData, true);
   };
   return (
     <Fragment>

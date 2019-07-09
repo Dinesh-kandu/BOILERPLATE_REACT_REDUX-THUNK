@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { success, error } from 'react-notification-system-redux';
+import { push } from 'connected-react-router';
 import { CHANGE_LOADING } from '../loading/constant';
 import { makeConstantCreator } from '../reduxCreator';
 
@@ -106,18 +107,18 @@ export const getGithubRepos = username => async dispatch => {
       type: CHANGE_LOADING,
       payload: false,
     });
-  } catch (error) {
+  } catch (err) {
     dispatch({
       type: ProfileTypes.PROFILE_ERROR,
       payload: {
-        msg: error.response.statusText,
-        status: error.response.status,
+        msg: err.response.statusText,
+        status: err.response.status,
       },
     });
   }
 };
 
-export const createProfile = (formData, history, edit = false) => async dispatch => {
+export const createProfile = (formData, edit = false) => async dispatch => {
   try {
     const config = {
       headers: {
@@ -146,7 +147,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
     });
 
     if (edit) {
-      history.push('/dashboard');
+      dispatch(push('/dashboard'));
     }
   } catch (err) {
     const { errors } = err.response.data;
@@ -170,7 +171,7 @@ export const createProfile = (formData, history, edit = false) => async dispatch
   }
 };
 
-export const addExperience = (formData, history) => async dispatch => {
+export const addExperience = formData => async dispatch => {
   try {
     const config = {
       headers: {
@@ -197,9 +198,10 @@ export const addExperience = (formData, history) => async dispatch => {
         autoDismiss: 1,
       }),
     );
-    history.push('/dashboard');
+    dispatch(push('/dashboard'));
   } catch (err) {
-    const { errors } = err.response.data;
+    console.log(err);
+    const { errors } = err.response;
 
     if (errors) {
       errors.forEach(
@@ -220,7 +222,7 @@ export const addExperience = (formData, history) => async dispatch => {
   }
 };
 
-export const addEducation = (formData, history) => async dispatch => {
+export const addEducation = formData => async dispatch => {
   try {
     const config = {
       headers: {
@@ -247,7 +249,7 @@ export const addEducation = (formData, history) => async dispatch => {
         autoDismiss: 1,
       }),
     );
-    history.push('/dashboard');
+    dispatch(push('/dashboard'));
   } catch (err) {
     const { errors } = err.response.data;
 
@@ -305,12 +307,14 @@ export const deleteExperience = id => async dispatch => {
 };
 
 export const deleteEducation = id => async dispatch => {
+  console.log(id);
   try {
     dispatch({
       type: CHANGE_LOADING,
       payload: true,
     });
     const res = await axios.delete(`/api/profile/education/${id}`);
+    console.log(res.data);
     dispatch({
       type: ProfileTypes.UPDATE_PROFILE,
       payload: res.data,
